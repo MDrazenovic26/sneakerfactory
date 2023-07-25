@@ -1,21 +1,39 @@
-
 version: 2
 
-models:
-  - name: my_first_dbt_model
-    description: "A starter dbt model"
-    columns:
-      - name: id
-        description: "The primary key for this table"
-        tests:
-          - unique
-          - not_null
+sources:
+  - name: SNEAKERFACTORY_TEST_SCHEMA
+    database: SNEAKERFACTORY_MDRAZ_DB  
+    description: This is a source for test shcema, untransformed data
+    schema: TEST_SCHEMA
+    
 
-  - name: my_second_dbt_model
-    description: "A starter dbt model"
-    columns:
-      - name: id
-        description: "The primary key for this table"
-        tests:
-          - unique
-          - not_null
+    tables:
+      - name: team_details
+        columns:
+        - name: team
+        - name: city
+        - name: state
+        - name: DATA_LOADED
+        freshness:
+          warn_after:
+            count: 1
+            period: minute
+          error_after:
+            count: 1
+            period: minute
+
+        loaded_at_field: "convert_timezone('America/Los_Angeles', 'UTC', DATA_LOADED)"
+      
+      - name: example_teams
+        columns:
+        - name: team
+        - name: DATA_CREATED
+        freshness:
+          warn_after:
+            count: 1
+            period: minute
+          error_after:
+            count: 1
+            period: minute
+
+        loaded_at_field: "convert_timezone('America/Los_Angeles', 'UTC', DATA_CREATED)"

@@ -1,0 +1,17 @@
+
+version: 2
+
+models:
+  - name: example_teams
+    description: '{{ doc("table_events") }}'
+    columns:
+      - name: team
+        tests:
+          - not_null
+
+  - name: team_details
+    description: '{{ doc("table_events") }}'
+    columns:
+      - name: team
+        tests:
+          - not_null
